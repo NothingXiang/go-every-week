@@ -5,10 +5,6 @@ import (
 	"net/http"
 )
 
-const (
-	routerKey = "%v:%v"
-)
-
 // HandlerFunc http处理器
 type HandlerFunc func(*Context)
 
@@ -39,6 +35,10 @@ func (e *Engine) POST(pattern string, handler HandlerFunc) {
 // Run defines the method to start a http server
 func (e *Engine) Run(addr string) (err error) {
 	fmt.Println("start run")
+
+	for key, _ := range e.router.handlers {
+		fmt.Printf("%v\n", key)
+	}
 	return http.ListenAndServe(addr, e)
 }
 

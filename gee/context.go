@@ -15,6 +15,8 @@ type Context struct {
 	*http.Request
 	// request info
 	StatusCode int
+
+	Params map[string]string
 }
 
 func newContext(w http.ResponseWriter, req *http.Request) *Context {
@@ -34,6 +36,11 @@ func (c *Context) Query(key string) string {
 	return c.URL.Query().Get(key)
 }
 
+// Param 获取Param参数
+func (c *Context) Param(key string) string {
+	return c.Params[key]
+}
+
 // Status http状态码写入
 func (c *Context) Status(code int) {
 	c.StatusCode = code
@@ -45,7 +52,7 @@ func (c *Context) SetHeader(key string, value string) {
 	c.Writer.Header().Set(key, value)
 }
 
-func (c *Context) String(code int, format string, values ...interface{}) {
+func (c *Context) Stringf(code int, format string, values ...interface{}) {
 	c.SetHeader("Content-Type", "text/plain")
 	c.Status(code)
 	c.Writer.Write([]byte(fmt.Sprintf(format, values...)))
