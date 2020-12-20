@@ -17,12 +17,25 @@ type Context struct {
 	StatusCode int
 
 	Params map[string]string
+
+	// middleware
+	handlers []HandlerFunc
+	index    int
 }
 
-func newContext(w http.ResponseWriter, req *http.Request) *Context {
+func newContext(w http.ResponseWriter, req *http.Request, handlers ...HandlerFunc) *Context {
 	return &Context{
-		Writer:  w,
-		Request: req,
+		Writer:   w,
+		Request:  req,
+		handlers: handlers,
+		index:    -1,
+	}
+}
+
+func (c *Context) Next() {
+	c.index++
+	for ; c.index < len(c.handlers); c.index++ {
+		c.handlers[c.index](c)
 	}
 }
 

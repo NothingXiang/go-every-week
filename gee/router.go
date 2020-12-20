@@ -103,14 +103,16 @@ func (r *Router) handle(c *Context) {
 	// match node
 	node, paramas := r.getRoute(c.Method, c.URL.Path)
 	if node == nil {
-		c.Stringf(http.StatusNotFound, "404 NOT FOUND: %s\n", c.URL.Path)
-		return
+		c.handlers = append(c.handlers, func(c *Context) {
+			c.Stringf(http.StatusNotFound, "404 NOT FOUND: %s\n", c.URL.Path)
+		})
+	} else {
+		// get handler and params
+		c.Params = paramas
+		key := fmt.Sprintf(routerKey, c.Method, node.pattern)
+		c.handlers = append(c.handlers, r.handlers[key])
 	}
 
-	// get handler and params
-	c.Params = paramas
-	key := fmt.Sprintf(routerKey, c.Method, node.pattern)
-
-	// handle request
-	r.handlers[key](c)
+	// handle request 保证这个入口是第一次调用c.Next()
+	c.Next()
 }
