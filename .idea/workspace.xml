@@ -20,13 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ca92a29-b44c-4284-b1ec-5da826b20e4d" name="Default Changelist" comment="feat(gee): implement http router by trie">
-      <change afterPath="$PROJECT_DIR$/.idea/auto_sync.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/go-every-week.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gee/group.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gee/engine.go" beforeDir="false" afterPath="$PROJECT_DIR$/gee/engine.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gee-cache/byteview.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gee-cache/cache.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gee-cache/getter.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gee-cache/getter_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gee-cache/group.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gee-cache/group_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gee-cache/lru.go" beforeDir="false" afterPath="$PROJECT_DIR$/gee-cache/lru/lru.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gee-cache/lru_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/gee-cache/lru/lru_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +43,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" path="C:\Go" />
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../../../Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -64,6 +66,7 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="HTTP Request" />
@@ -72,10 +75,12 @@
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="last.edited.regexp" value="// acasxdd//sac" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\go_workspace\src\github.com\NothingXiang\go-every-week\gee-cache\lru" />
+      <recent name="D:\go_workspace\src\github.com\NothingXiang\go-every-week\gee-cache" />
       <recent name="D:\workspace\go\src\github.com\NothingXiang\go-every-week\gee" />
       <recent name="D:\workspace\go\src\github.com\NothingXiang\go-every-week\gee\router" />
     </key>
@@ -173,7 +178,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.go build github.com/NothingXiang/go-every-week/gee-demo">
+  <component name="RunManager" selected="Go Test.TestGroup_Get in github.com/NothingXiang/go-every-week/gee-cache">
     <configuration name="go build github.com/NothingXiang/go-every-week/gee-demo" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="go-every-week" />
       <working_directory value="$PROJECT_DIR$/gee-demo" />
@@ -183,40 +188,60 @@
       <directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_parsePattern/* in github.com/NothingXiang/go-every-week/gee" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestCache_Get/#00 in github.com/NothingXiang/go-every-week/gee-cache" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="go-every-week" />
-      <working_directory value="$PROJECT_DIR$/gee" />
+      <working_directory value="$PROJECT_DIR$/gee-cache" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="github.com/NothingXiang/go-every-week/gee" />
+      <package value="github.com/NothingXiang/go-every-week/gee-cache" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTest_parsePattern\E$/^\Q*\E$" />
+      <pattern value="^\QTestCache_Get\E$/^\Q#00\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_parsePattern/ignore-after-* in github.com/NothingXiang/go-every-week/gee" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestCache_Get/key-not-exists in github.com/NothingXiang/go-every-week/gee-cache" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="go-every-week" />
-      <working_directory value="$PROJECT_DIR$/gee" />
+      <working_directory value="$PROJECT_DIR$/gee-cache" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="github.com/NothingXiang/go-every-week/gee" />
+      <package value="github.com/NothingXiang/go-every-week/gee-cache" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTest_parsePattern\E$/^\Qignore-after-*\E$" />
+      <pattern value="^\QTestCache_Get\E$/^\Qkey-not-exists\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGetterFunc_Get/simple-test in github.com/NothingXiang/go-every-week/gee-cache" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="go-every-week" />
+      <working_directory value="$PROJECT_DIR$/gee-cache" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/NothingXiang/go-every-week/gee-cache" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestGetterFunc_Get\E$/^\Qsimple-test\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGroup_Get in github.com/NothingXiang/go-every-week/gee-cache" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="go-every-week" />
+      <working_directory value="$PROJECT_DIR$/gee-cache" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/NothingXiang/go-every-week/gee-cache" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestGroup_Get\E$" />
       <method v="2" />
     </configuration>
     <configuration name="scratch#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/scratch.http" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="scratch#2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/scratch.http" index="2" runType="Run single request">
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestGroup_Get in github.com/NothingXiang/go-every-week/gee-cache" />
+        <item itemvalue="Go Test.TestGetterFunc_Get/simple-test in github.com/NothingXiang/go-every-week/gee-cache" />
+        <item itemvalue="Go Test.TestCache_Get/key-not-exists in github.com/NothingXiang/go-every-week/gee-cache" />
+        <item itemvalue="Go Test.TestCache_Get/#00 in github.com/NothingXiang/go-every-week/gee-cache" />
         <item itemvalue="HTTP Request.scratch#1" />
-        <item itemvalue="HTTP Request.scratch#2" />
-        <item itemvalue="Go Test.Test_parsePattern/ignore-after-* in github.com/NothingXiang/go-every-week/gee" />
-        <item itemvalue="Go Test.Test_parsePattern/* in github.com/NothingXiang/go-every-week/gee" />
       </list>
     </recent_temporary>
   </component>
@@ -241,7 +266,8 @@
     <MESSAGE value="feat(gee-demo): usage of esay http server" />
     <MESSAGE value="feat(gee): implement http router by trie" />
     <MESSAGE value="refactor: useless commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: useless commit" />
+    <MESSAGE value="feat(gee-cache): add base lru cache (goroutines unsafe)" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(gee-cache): add base lru cache (goroutines unsafe)" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -258,26 +284,6 @@
           <url>file://$PROJECT_DIR$/vali/check.go</url>
           <line>16</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/gee-demo/main.go</url>
-          <line>11</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/gee-demo/main.go</url>
-          <line>15</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/gee-demo/main.go</url>
-          <line>20</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/gee-demo/main.go</url>
-          <line>25</line>
-          <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/gee/router/trie.go</url>
@@ -363,8 +369,8 @@
     </breakpoint-manager>
     <watches-manager>
       <configuration name="GoApplicationRunConfiguration">
-        <watch expression="r.router" language="go" />
-        <watch expression="r.router.roots" language="go" />
+        <watch expression="r.router" />
+        <watch expression="r.router.roots" />
       </configuration>
     </watches-manager>
   </component>
