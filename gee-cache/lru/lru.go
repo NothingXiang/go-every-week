@@ -1,4 +1,4 @@
-package gee_cache
+package lru
 
 import (
 	"container/list"
@@ -6,15 +6,15 @@ import (
 
 // Cache is a LRU cache. It is not safe for concurrent access.
 type Cache struct {
-	maxBytes uint
-	nBytes   uint
+	maxBytes int64
+	nBytes   int64
 	ll       *list.List
 	cache    map[string]*list.Element
 	// optional and executed when an entry is purged.
 	OnEvicted func(key string, value interface{})
 }
 
-func NewCache(maxBytes uint, onEvicted func(key string, value interface{})) *Cache {
+func NewCache(maxBytes int64, onEvicted func(key string, value interface{})) *Cache {
 	return &Cache{
 		maxBytes:  maxBytes,
 		ll:        list.New(),
@@ -30,7 +30,7 @@ type entry struct {
 
 // Value use Len to count how many bytes it takes
 type Value interface {
-	Len() uint
+	Len() int
 }
 
 // Get look ups a key's value
@@ -52,7 +52,7 @@ func (c *Cache) RemoveOldest() {
 		kv := ele.Value.(*entry)
 		delete(c.cache, kv.key)
 
-		c.nBytes -= uint(len(kv.key)) + kv.value.Len()
+		c.nBytes -= int64(len(kv.key) + kv.value.Len())
 
 		if c.OnEvicted != nil {
 			c.OnEvicted(kv.key, kv.value)
@@ -67,12 +67,12 @@ func (c *Cache) Add(key string, value Value) {
 		c.ll.MoveToFront(ele)
 		kv := ele.Value.(*entry)
 
-		c.nBytes += value.Len() - kv.value.Len()
+		c.nBytes += int64(value.Len() - kv.value.Len())
 		kv.value = value
 	} else {
 		ele := c.ll.PushFront(&entry{key: key, value: value})
 		c.cache[key] = ele
-		c.nBytes += uint(len(key)) + value.Len()
+		c.nBytes += int64(len(key) + value.Len())
 	}
 
 	// 淘汰

@@ -1,4 +1,4 @@
-package gee_cache
+package lru
 
 import (
 	"reflect"
@@ -52,15 +52,15 @@ func TestCache_Get(t *testing.T) {
 
 type String string
 
-func (d String) Len() uint {
-	return uint(len(d))
+func (d String) Len() int {
+	return len(d)
 }
 
 func TestCache_RemoveOldest(t *testing.T) {
 	keys := []string{"key1", "key2", "k3"}
 	values := []string{"value1", "value2", "v3"}
 
-	lru := NewCache(uint(len(keys[0]+keys[1]+values[0]+values[1])), nil)
+	lru := NewCache(int64(len(keys[0]+keys[1]+values[0]+values[1])), nil)
 
 	for i := 0; i < 3; i++ {
 		lru.Add(keys[i], String(values[i]))
