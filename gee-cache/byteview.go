@@ -7,7 +7,7 @@ type ByteView struct {
 
 // String returns the data as a string, making a copy if necessary.
 func (v ByteView) String() string {
-	return string(v.b)
+	return string(cloneBytes(v.b))
 }
 
 // ByteSlice return the copy of slice
