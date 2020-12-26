@@ -6,11 +6,13 @@ import (
 	"net/http"
 	"time"
 
-	"gee"
+	"github.com/NothingXiang/go-every-week/gee"
+	"github.com/NothingXiang/go-every-week/gee-demo/middle"
 )
 
 func main() {
 	r := gee.New()
+	r.Use(middle.Logger())
 
 	r.GET("/index", func(c *gee.Context) {
 		c.HTML(http.StatusOK, "<h1>Index Page</h1>")
@@ -42,7 +44,7 @@ func main() {
 
 	}
 
-	if err := r.Run(":8000"); err != nil {
+	if err := r.Run("0.0.0.0:8000"); err != nil {
 		fmt.Println(err)
 	}
 }

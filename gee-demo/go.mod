@@ -1,7 +1,7 @@
 module github.com/NothingXiang/go-every-week/gee-demo
 
-replace gee => ../gee
+replace github.com/NothingXiang/go-every-week/gee => ../gee
 
-require gee v0.0.0-00010101000000-000000000000
+require github.com/NothingXiang/go-every-week/gee v0.0.0-20201224174056-7f4f62671d26
 
 go 1.13
