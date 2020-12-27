@@ -1,7 +1,7 @@
 package gee
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -26,7 +26,7 @@ func New() *Engine {
 
 // Run defines the method to start a http server
 func (e *Engine) Run(addr string) (err error) {
-	fmt.Println("start run")
+	log.Println("start run: ", addr)
 
 	return http.ListenAndServe(addr, e)
 }

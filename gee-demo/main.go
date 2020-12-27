@@ -44,7 +44,7 @@ func main() {
 
 	}
 
-	if err := r.Run("0.0.0.0:8000"); err != nil {
+	if err := r.Run(":8000"); err != nil {
 		fmt.Println(err)
 	}
 }
