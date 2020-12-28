@@ -1,4 +1,4 @@
-package lru
+package core
 
 import (
 	"reflect"
@@ -7,7 +7,7 @@ import (
 
 func TestCache_Get(t *testing.T) {
 
-	lru := NewCache(0, nil)
+	lru := NewLRUCache(0, nil)
 
 	lru.Add("key1", String("1234"))
 
@@ -60,7 +60,7 @@ func TestCache_RemoveOldest(t *testing.T) {
 	keys := []string{"key1", "key2", "k3"}
 	values := []string{"value1", "value2", "v3"}
 
-	lru := NewCache(int64(len(keys[0]+keys[1]+values[0]+values[1])), nil)
+	lru := NewLRUCache(int64(len(keys[0]+keys[1]+values[0]+values[1])), nil)
 
 	for i := 0; i < 3; i++ {
 		lru.Add(keys[i], String(values[i]))

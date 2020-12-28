@@ -1,4 +1,5 @@
-package lru
+// package core defines a goroutines unsafely core cache implements
+package core
 
 import (
 	"container/list"
@@ -7,14 +8,21 @@ import (
 // Cache is a LRU cache. It is not safe for concurrent access.
 type Cache struct {
 	maxBytes int64
-	nBytes   int64
-	ll       *list.List
-	cache    map[string]*list.Element
+
+	// current size
+	nBytes int64
+	// frequency ele will be front
+	// the most frequently called element is in the front
+	ll    *list.List
+	cache map[string]*list.Element
 	// optional and executed when an entry is purged.
 	OnEvicted func(key string, value interface{})
 }
 
-func NewCache(maxBytes int64, onEvicted func(key string, value interface{})) *Cache {
+// NewLRUCache returns a  pointer to a lru cache
+// maxBytes: max usage memory size
+// onEvicted: after func call when keys evicted
+func NewLRUCache(maxBytes int64, onEvicted func(key string, value interface{})) *Cache {
 	return &Cache{
 		maxBytes:  maxBytes,
 		ll:        list.New(),
@@ -26,11 +34,6 @@ func NewCache(maxBytes int64, onEvicted func(key string, value interface{})) *Ca
 type entry struct {
 	key   string
 	value Value
-}
-
-// Value use Len to count how many bytes it takes
-type Value interface {
-	Len() int
 }
 
 // Get look ups a key's value

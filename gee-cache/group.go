@@ -7,21 +7,26 @@ import (
 )
 
 var (
-	KeyRequiredErr = errors.New("key is required")
-)
-
-type Group struct {
-	name      string
-	getter    Getter
-	mainCache cache
-}
-
-var (
+	// mu protect global groups instance
 	mu     sync.RWMutex
 	groups = make(map[string]*Group)
 )
 
+var (
+	KeyRequiredErr = errors.New("key is required")
+)
+
+// Group is a cache namespace and associated data loaded spread over
+type Group struct {
+	name      string
+	getter    Getter
+	mainCache safelyCache
+}
+
 // NewGroup create a new instance of Group
+// name: cache namespace
+// cacheBytes: max cache size
+// getter : a callback func when key is not exists it will be called ,could not nil
 func NewGroup(name string, cacheBytes int64, getter Getter) *Group {
 	if getter == nil {
 		panic("nil getter")
@@ -32,7 +37,7 @@ func NewGroup(name string, cacheBytes int64, getter Getter) *Group {
 	g := &Group{
 		name:      name,
 		getter:    getter,
-		mainCache: cache{cacheBytes: cacheBytes},
+		mainCache: safelyCache{cacheBytes: cacheBytes},
 	}
 	groups[name] = g
 
@@ -53,7 +58,7 @@ func (g *Group) Get(key string) (res ByteView, err error) {
 	}
 	v, ok := g.mainCache.get(key)
 	if ok {
-		log.Println("[gee-cache] hit")
+		log.Println("[gee-safelyCache] hit")
 		return v, nil
 	}
 

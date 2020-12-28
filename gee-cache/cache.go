@@ -3,26 +3,28 @@ package gee_cache
 import (
 	"sync"
 
-	"github.com/NothingXiang/go-every-week/gee-cache/lru"
+	"github.com/NothingXiang/go-every-week/gee-cache/core"
 )
 
-type cache struct {
+// safelyCache is a concurrency safely cache,wrap a core-cache with mutex
+type safelyCache struct {
 	sync.RWMutex
-	lru        *lru.Cache
+	lru        core.CacheCore
 	cacheBytes int64
 }
 
-func (c *cache) add(key string, value ByteView) {
+func (c *safelyCache) add(key string, value ByteView) {
 	c.Lock()
 	defer c.Unlock()
 
+	// lazy load
 	if c.lru == nil {
-		c.lru = lru.NewCache(c.cacheBytes, nil)
+		c.lru = core.NewLRUCache(c.cacheBytes, nil)
 	}
 	c.lru.Add(key, value)
 }
 
-func (c *cache) get(key string) (ByteView, bool) {
+func (c *safelyCache) get(key string) (ByteView, bool) {
 	c.RLock()
 	defer c.RUnlock()
 

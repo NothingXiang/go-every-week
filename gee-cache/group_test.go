@@ -33,8 +33,8 @@ func TestGroup_Get(t *testing.T) {
 			t.Fatalf("failed to get value of %s", k)
 		} // load from callback function
 		if _, err := GetGroup(groupName).Get(k); err != nil || loadCounts[k] > 1 {
-			t.Fatalf("cache %s miss", k)
-		} // cache hit
+			t.Fatalf("safelyCache %s miss", k)
+		} // safelyCache hit
 	}
 
 	if view, err := GetGroup(groupName).Get("unknown"); err == nil {
