@@ -1,0 +1,11 @@
+[database]
+[mongo]
+hosts = ["localhost:27017"]
+username = ""
+password = ""
+db = "${app_name}"
+
+[redis]
+url = "redis://localhost:6379/0"
+
+
